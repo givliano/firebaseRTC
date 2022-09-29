@@ -52,7 +52,7 @@ async function createRoom() {
 
   const roomRef = await db.collection('rooms').add(roomWithOffer);
   const roomId = roomRef.id;
-  document.querySelector('#currentRoom').innerText = `Current room is ${roomdId} - You are the caller!`;
+  document.querySelector('#currentRoom').innerText = `Current room is ${roomId} - You are the caller!`;
 
   // This will wait until the callee writes the RTCSessionDescription for the answer,
   // and set that as the remote description on the caller RTCPeerConnection.
