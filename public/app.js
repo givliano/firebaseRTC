@@ -54,18 +54,6 @@ async function createRoom() {
   const roomId = roomRef.id;
   document.querySelector('#currentRoom').innerText = `Current room is ${roomId} - You are the caller!`;
 
-  // This will wait until the callee writes the RTCSessionDescription for the answer,
-  // and set that as the remote description on the caller RTCPeerConnection.
-  roomRef.onSnapshot(async (snapshot) => {
-    console.log('Got updated room: ', snapshot.data());
-    const data = snapshot.data();
-
-    if (!peerConnection.currentRemoteDescription && data.answer) {
-      console.log('Set remote description: ', data.answer);
-      const answer = new RTCSessionDescription(data.answer);
-      await peerConnection.setRemoteDescription(answer);
-    }
-  })
   // Code for creating room above
 
   localStream.getTracks().forEach(track => {
@@ -89,7 +77,18 @@ async function createRoom() {
   });
 
   // Listening for remote session description below
+  // This will wait until the callee writes the RTCSessionDescription for the answer,
+  // and set that as the remote description on the caller RTCPeerConnection.
+  roomRef.onSnapshot(async (snapshot) => {
+    console.log('Got updated room: ', snapshot.data());
+    const data = snapshot.data();
 
+    if (!peerConnection.currentRemoteDescription && data.answer) {
+      console.log('Set remote description: ', data.answer);
+      const answer = new RTCSessionDescription(data.answer);
+      await peerConnection.setRemoteDescription(answer);
+    }
+  })
   // Listening for remote session description above
 
   // Listen for remote ICE candidates below
