@@ -134,7 +134,25 @@ async function joinRoomById(roomId) {
     });
 
     // Code for creating SDP answer below
+    // In the code above, we start by extracting the offer from the caller
+    // and creating a RTCSessionDescription that we set as the remote description.
+    // Next, we create the answer, set it as the local description, and update the database.
+    // The update of the database will trigger the onSnapshot callback on the caller side,
+    // which in turn will set the remote description based on the answer from the callee.
+    // This completes the exchange of the RTCSessionDescription objects between the caller and the callee.
+    const offer = roomSnapshot.data().offer;
+    await peerConnection.setRemoteDescription(offer);
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
 
+    const roomWithAnswer = {
+      answer: {
+        type: answer.tipe,
+        sdp: answer.sdp
+      }
+    };
+
+    await roomRef.update(roomWithAnswer);
     // Code for creating SDP answer above
 
     // Listening for remote ICE candidates below
