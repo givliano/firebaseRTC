@@ -53,7 +53,6 @@ async function createRoom() {
   const roomRef = await db.collection('rooms').add(roomWithOffer);
   const roomId = roomRef.id;
   document.querySelector('#currentRoom').innerText = `Current room is ${roomdId} - You are the caller!`;
-
   // Code for creating room above
 
   localStream.getTracks().forEach(track => {
