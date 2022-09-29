@@ -60,10 +60,6 @@ async function createRoom() {
     peerConnection.addTrack(track, localStream);
   });
 
-  // Code for creating a room below
-
-  // Code for creating a room above
-
   // Code for collecting ICE candidates below
 
   // Code for collecting ICE candidates above
